@@ -4,7 +4,7 @@ import { showAnnotationCommand } from "./showAnnotationCommand";
 
 function activate(context: vscode.ExtensionContext) {
   context.subscriptions.push(
-    vscode.languages.registerHoverProvider("python", new HoverProvider())
+    vscode.languages.registerHoverProvider("python", new HoverProvider(context))
   );
   context.subscriptions.push(
     vscode.commands.registerCommand("showAnnotation", () => {
