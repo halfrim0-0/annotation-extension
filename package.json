@@ -23,6 +23,7 @@
     "views": {
       "annotation-container": [
         {
+          "type": "webview",
           "id": "annotation-view",
           "name": ""
         }

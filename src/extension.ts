@@ -1,6 +1,7 @@
 import vscode = require("vscode");
 import { HoverProvider } from "./hoverProvider";
 import { showAnnotationCommand } from "./showAnnotationCommand";
+import { AnnotationWebViewProvider } from "./annotationWebviewProvider";
 
 function activate(context: vscode.ExtensionContext) {
   context.subscriptions.push(
@@ -11,6 +12,12 @@ function activate(context: vscode.ExtensionContext) {
       const text: string = context.globalState.get("text") || "";
       showAnnotationCommand(text);
     })
+  );
+  context.subscriptions.push(
+    vscode.window.registerWebviewViewProvider(
+      "annotation-view",
+      new AnnotationWebViewProvider(context.extensionUri)
+    )
   );
 }
 
