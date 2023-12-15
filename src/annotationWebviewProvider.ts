@@ -1,3 +1,4 @@
+import axios from "axios";
 import * as vscode from "vscode";
 
 export class AnnotationWebViewProvider implements vscode.WebviewViewProvider {
@@ -32,9 +33,29 @@ export class AnnotationWebViewProvider implements vscode.WebviewViewProvider {
     `;
   }
 
-  public showAnnotation(text: string) {
-    // TODO: 表示する内容をアノテーションにする
-    this._view!.webview.html = `
+  public async showAnnotation(text: string) {
+    try {
+      const response = await axios.get(
+        "http://127.0.0.1:5000/annotation/show",
+        {
+          params: {
+            type: "vscode",
+            text: text,
+          },
+        }
+      );
+      const annotations = response.data;
+      annotations.sort((a: any, b: any) => {
+        const aCreateAt = new Date(a.create_at);
+        const bCreateAt = new Date(b.create_at);
+        return aCreateAt < bCreateAt ? 1 : -1;
+      });
+      let list = "";
+      for (const annotation of annotations) {
+        list += `<li>${annotation.description}</li>`;
+      }
+
+      this._view!.webview.html = `
             <!DOCTYPE html>
               <html lang="ja">
               <head>
@@ -44,8 +65,12 @@ export class AnnotationWebViewProvider implements vscode.WebviewViewProvider {
               </head>
               <body>
                 <h1>${text}</h1>
+                <ul>${list}</ul>
               </body>
             </html>
             `;
+    } catch (err: any) {
+      vscode.window.showInformationMessage(err);
+    }
   }
 }
