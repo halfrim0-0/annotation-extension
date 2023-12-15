@@ -14,6 +14,16 @@
   ],
   "main": "./dist/extension.js",
   "contributes": {
+    "configuration": {
+      "title": "Annotation",
+      "properties": {
+        "displayType.displayInTheBrowser": {
+          "type": "boolean",
+          "description": "この設定が ON の場合、アノテーションを参照する際にブラウザが立ち上がります。",
+          "default": "false"
+        }
+      }
+    },
     "commands": [
       {
         "command": "showAnnotation",
