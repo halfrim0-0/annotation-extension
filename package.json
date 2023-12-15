@@ -19,7 +19,7 @@
       "properties": {
         "displayType.displayInTheBrowser": {
           "type": "boolean",
-          "description": "この設定が ON の場合、アノテーションを参照する際にブラウザが立ち上がります。",
+          "description": "この設定が ON の場合、ブラウザ上でアノテーションを参照します。",
           "default": "false"
         }
       }
