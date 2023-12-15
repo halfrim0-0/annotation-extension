@@ -52,7 +52,11 @@ export class AnnotationWebViewProvider implements vscode.WebviewViewProvider {
       });
       let list = "";
       for (const annotation of annotations) {
-        list += `<li>${annotation.description}</li>`;
+        const date = new Date(annotation.create_at);
+        list += `<li>${annotation.description}<small>(${date.toLocaleString(
+          "ja-JP",
+          { year: "numeric", month: "numeric", day: "numeric" }
+        )})</small></li>`;
       }
 
       this._view!.webview.html = `
