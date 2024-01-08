@@ -68,8 +68,42 @@ export class AnnotationWebViewProvider implements vscode.WebviewViewProvider {
                 <title>Annotation WebView</title>
               </head>
               <body>
-                <h1>${text}</h1>
+                <h1 id="text">${text}</h1>
+                <form>
+                  <label for="description">アノテーション追加</label><br/>
+                  <textarea id="description" name="description" required="required"></textarea><br/>
+                  <input type="button" value="登録" onclick="createAnnotation()">
+                </form>
                 <ul>${list}</ul>
+
+                <script>
+                  function createAnnotation() {
+                    const textElement = document.getElementById("text");
+                    const text = textElement.innerText || textElement.textContent;
+                    const descriptionField = document.getElementById("description");
+                    const description = descriptionField.value;
+
+                    const url = "http://127.0.0.1:5000/annotation/create";
+                    const data = {
+                      text: text,
+                      description: description
+                    }
+                    const jsonData = JSON.stringify(data);
+
+                    fetch(url, {
+                      method: "POST",
+                      headers: {
+                        "Content-Type": "application/json"
+                      },
+                      body: jsonData
+                    })
+                      .then(function () {
+                      })
+                      .catch(function (error) {
+                        console.error("エラーが発生しました:", error);
+                      });
+                  }
+                </script>
               </body>
             </html>
             `;
